@@ -407,7 +407,7 @@
   <div class="hero">
     <p class="hero-eyebrow">Pharmacy tools · EnterpriseRx</p>
     <h1>Sig code practice</h1>
-    <p>Practice translating common prescription sig codes into plain-English EnterpriseRx label copy. Basic covers frequency, route, and dose. Advanced covers tapering, PRN conditions, and special instructions.</p>
+    <p>A personal study tool built around the EnterpriseRx workflow at my workplace — sig codes and translations reflect how they're actively used in practice, not just standard conventions.</p>
   </div>
 
   <main>
@@ -481,20 +481,32 @@
 
   <script>
     const DATA = {
+      common: [
+        {sig:'AC',trans:'Before meals',hint:'Pre-meal timing'},
+        {sig:'AAA',trans:'Apply to Affected Area(s)',hint:'Apply to parts of the body topically.'},
+        {sig:'MEDROL',trans:'Take as directed labeled on package',hint:'Similar to TAD'},
+        {sig:'TAD',trans:'Take as directed',hint:'As directed by your doctor'},
+        {sig:'UAD',trans:'Use as directed',hint: 'As directed by your doctor - Alternate wording'},
+        {sig:'PC',trans:'After meals',hint:'Post-meal timing'},
+        {sig:'WF',trans:'With food',hint:'With food instruction'},
+        {sig:'WM',trans:'With a meal',hint:'With something to eat'},
+        {sig:'WW',trans:'With a full glass of water',hint:'Full glass water'},
+        ],
       freq: [
-        {sig:'QD',trans:'Take once daily',hint:'Once daily frequency'},
-        {sig:'BID',trans:'Take twice daily',hint:'Twice daily frequency'},
-        {sig:'TID',trans:'Take three times daily',hint:'Three times daily'},
-        {sig:'QID',trans:'Take four times daily',hint:'Four times daily'},
-        {sig:'Q4H',trans:'Take every 4 hours',hint:'Every 4 hours'},
-        {sig:'Q6H',trans:'Take every 6 hours',hint:'Every 6 hours'},
-        {sig:'Q8H',trans:'Take every 8 hours',hint:'Every 8 hours'},
-        {sig:'Q12H',trans:'Take every 12 hours',hint:'Every 12 hours'},
-        {sig:'QHS',trans:'Take at bedtime',hint:'Bedtime dose'},
-        {sig:'QAM',trans:'Take every morning',hint:'Morning dose'},
-        {sig:'QPM',trans:'Take every evening',hint:'Evening dose'},
-        {sig:'Q48H',trans:'Take every 48 hours',hint:'Every other day'},
-        {sig:'QWK',trans:'Take once weekly',hint:'Weekly dose'},
+        {sig:'QD',trans:'Once daily',hint:'Once daily frequency'},
+        {sig:'BID',trans:'Twice daily',hint:'Twice daily frequency'},
+        {sig:'TID',trans:'Three times daily',hint:'Three times daily'},
+        {sig:'QID',trans:'Four times daily',hint:'Four times daily'},
+        {sig:'Q4H',trans:'Every 4 hours',hint:'Every X hours'},
+        {sig:'Q6H',trans:'Every 6 hours',hint:'Every X hours'},
+        {sig:'Q8H',trans:'Every 8 hours',hint:'Every X hours'},
+        {sig:'Q12H',trans:'Every 12 hours',hint:'Every XX hours'},
+        {sig:'HS',trans:'At bedtime',hint:'Bedtime dose'},
+        {sig:'QAM',trans:'Every morning',hint:'Morning dose'},
+        {sig:'QPM',trans:'Every evening',hint:'Evening dose'},
+        {sig:'Q48H',trans:'Every 48 hours',hint:'Every other day'},
+        {sig:'QOD',trans:'Every other day',hint:'Every other day — alternate phrasing'},
+        {sig:'QW',trans:'Once weekly',hint:'Weekly dose'},
       ],
       route: [
         {sig:'PO',trans:'By mouth',hint:'Oral route'},
@@ -506,6 +518,7 @@
         {sig:'AU',trans:'In both ears',hint:'Both ears'},
         {sig:'AD',trans:'In the right ear',hint:'Right ear'},
         {sig:'AS',trans:'In the left ear',hint:'Left ear'},
+        {sig:'AL',trans:'In the left ear',hint:'Left ear - alternate phrasing'},
         {sig:'INH',trans:'Inhale',hint:'Inhalation route'},
         {sig:'NAS',trans:'In the nose',hint:'Nasal route'},
         {sig:'PR',trans:'Per rectum',hint:'Rectal route'},
@@ -536,36 +549,32 @@
         {sig:'4 TAB QD X 2D, 3 TAB QD X 2D, 2 TAB QD X 2D, 1 TAB QD X 2D',trans:'Take 4 tablets daily for 2 days, then 3 tablets daily for 2 days, then 2 tablets daily for 2 days, then 1 tablet daily for 2 days',hint:'Medrol-style dose pack'},
       ],
       prn: [
-        {sig:'Q4-6H PRN PAIN',trans:'Take every 4 to 6 hours as needed for pain',hint:'PRN analgesic'},
-        {sig:'Q6H PRN NAUSEA',trans:'Take every 6 hours as needed for nausea',hint:'PRN antiemetic'},
-        {sig:'QHS PRN SLEEP',trans:'Take at bedtime as needed for sleep',hint:'PRN sleep aid'},
-        {sig:'BID PRN ANXIETY',trans:'Take twice daily as needed for anxiety',hint:'PRN anxiolytic'},
-        {sig:'Q4H PRN FEVER',trans:'Take every 4 hours as needed for fever',hint:'PRN antipyretic'},
-        {sig:'PRN ITCHING',trans:'Use as needed for itching',hint:'PRN antipruritic'},
-        {sig:'PRN SHORTNESS OF BREATH',trans:'Use as needed for shortness of breath',hint:'PRN bronchodilator'},
+        {sig:'Q4-6H PRN P',trans:'Every 4 to 6 hours as needed for pain',hint:'PRN analgesic'},
+        {sig:'Q6H PRN NA',trans:'Every 6 hours as needed for nausea',hint:'PRN antiemetic'},
+        {sig:'HS PRN SLP',trans:'At bedtime as needed for sleep',hint:'PRN sleep aid'},
+        {sig:'BID PRN ANX',trans:'Twice daily as needed for anxiety',hint:'PRN anxiolytic'},
+        {sig:'Q4H PRN FEVER',trans:'Every 4 hours as needed for fever',hint:'PRN antipyretic'},
+        {sig:'PRN ITCH',trans:'As needed for itching',hint:'PRN antipruritic'},
+        {sig:'PRN SOB',trans:'As needed for shortness of breath',hint:'PRN bronchodilator'},
         {sig:'PRN BREAKTHROUGH PAIN',trans:'Use as needed for breakthrough pain',hint:'Breakthrough dosing'},
         {sig:'NTE 4 DOSES/24H',trans:'Do not exceed 4 doses in 24 hours',hint:'Maximum frequency limit'},
       ],
       special: [
-        {sig:'AC',trans:'Before meals',hint:'Pre-meal timing'},
-        {sig:'PC',trans:'After meals',hint:'Post-meal timing'},
-        {sig:'W/ FOOD',trans:'Take with food',hint:'With food instruction'},
-        {sig:'W/ FULL GLASS OF WATER',trans:'Take with a full glass of water',hint:'Full glass water'},
         {sig:'DO NOT CRUSH',trans:'Do not crush or chew',hint:'Extended release warning'},
         {sig:'AVOID ALCOHOL',trans:'Avoid alcohol while taking this medication',hint:'Alcohol interaction'},
         {sig:'AVOID SUN EXPOSURE',trans:'Avoid prolonged sun exposure',hint:'Photosensitivity warning'},
         {sig:'SHAKE WELL',trans:'Shake well before use',hint:'Suspension instruction'},
         {sig:'REFRIGERATE',trans:'Store in the refrigerator',hint:'Cold storage'},
         {sig:'DO NOT REFRIGERATE',trans:'Do not store in the refrigerator',hint:'Room temp storage'},
-        {sig:'TAKE ON EMPTY STOMACH',trans:'Take on an empty stomach',hint:'Fasting absorption'},
+        {sig:'OES',trans:'On an empty stomach',hint:'Fasting absorption'},
         {sig:'ALLOW TO DISSOLVE UNDER TONGUE',trans:'Allow to dissolve completely under the tongue',hint:'SL dissolution'},
-        {sig:'APPLY THIN FILM',trans:'Apply a thin film to affected area',hint:'Topical application'},
+        {sig:'ATL',trans:'Apply a thin layer to affected area',hint:'Topical application'},
         {sig:'RINSE MOUTH AFTER USE',trans:'Rinse mouth after each use',hint:'Inhaled steroid instruction'},
         {sig:'ROTATE SITES',trans:'Rotate injection sites',hint:'Injection site rotation'},
       ]
     };
 
-    const CATEGORIES = { basic: ['freq','route','dose'], advanced: ['taper','prn','special'] };
+    const CATEGORIES = { basic: ['common','freq','route','dose'], advanced: ['taper','prn','special'] };
     let filters = { basic: true, advanced: true };
     let pool = [], idx = 0, correctCount = 0, totalCount = 0, revealed = false;
 
