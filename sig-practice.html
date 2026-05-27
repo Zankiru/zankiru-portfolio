@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sig Code Practice — EnterpriseRx</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --text: #1a1a18;
+      --muted: #6b6b67;
+      --border: #e2e1dc;
+      --accent: #2a5f4f;
+      --accent-light: #e8f0ed;
+      --tag-bg: #eeecea;
+      --tag-text: #3a3a37;
+      --success-bg: #e8f5ee;
+      --success-text: #1a5c35;
+      --danger-bg: #fdecea;
+      --danger-text: #7a1f1f;
+      --warning-bg: #fef6e4;
+      --warning-text: #7a4f00;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 244, 240, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-back {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+
+    .nav-back:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 2rem) 2rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 540px;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1.5rem clamp(1.5rem, 5vw, 2rem) 4rem;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+    }
+
+    .tab {
+      padding: 8px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.15s;
+      margin-bottom: -1px;
+    }
+
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    .badge-basic { background: var(--success-bg); color: var(--success-text); }
+    .badge-adv { background: var(--warning-bg); color: var(--warning-text); }
+
+    /* FILTERS */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .filter-btn.on {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: #b2cfc8;
+    }
+
+    /* SCORE BAR */
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .score {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .score strong { color: var(--text); font-weight: 500; }
+
+    .reset-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .reset-btn:hover { color: var(--text); border-color: #c0bfba; }
+
+    .progress {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-bar {
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* QUESTION CARD */
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+    }
+
+    .q-mode-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .sig-display {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .sig-hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    .answer-area {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .answer-area input {
+      flex: 1;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .answer-area input:focus { border-color: var(--accent); background: var(--surface); }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.65rem 1.25rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover { background: #214d3e; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: #c0bfba; }
+
+    .feedback {
+      font-size: 0.875rem;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+
+    .feedback.correct { background: var(--success-bg); color: var(--success-text); display: block; }
+    .feedback.wrong { background: var(--danger-bg); color: var(--danger-text); display: block; }
+
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* REFERENCE */
+    .ref-section { margin-bottom: 2.5rem; }
+
+    .ref-section-title {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+    }
+
+    .ref-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: border-color 0.15s;
+    }
+
+    .ref-item:hover { border-color: #c0bfba; }
+
+    .ref-sig {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .ref-trans {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+
+    .empty {
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1.5rem clamp(1.5rem, 5vw, 2rem);
+    }
+
+    footer p {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .answer-area { flex-direction: column; }
+      .sig-display { font-size: 1.3rem; }
+      .q-card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">Sig Practice</span>
+    <a href="index.html" class="nav-back">← Back to portfolio</a>
+  </nav>
+
+  <div class="hero">
+    <p class="hero-eyebrow">Pharmacy tools · EnterpriseRx</p>
+    <h1>Sig code practice</h1>
+    <p>Practice translating common prescription sig codes into plain-English EnterpriseRx label copy. Basic covers frequency, route, and dose. Advanced covers tapering, PRN conditions, and special instructions.</p>
+  </div>
+
+  <main>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('practice')">Practice</button>
+      <button class="tab" onclick="switchTab('reference')">Reference</button>
+    </div>
+
+    <!-- PRACTICE TAB -->
+    <div id="tab-practice">
+      <div class="filter-row">
+        <span class="filter-label">Mode</span>
+        <button class="filter-btn on" onclick="toggleFilter(this,'basic')">Basic <span class="badge badge-basic">freq / route / dose</span></button>
+        <button class="filter-btn on" onclick="toggleFilter(this,'advanced')">Advanced <span class="badge badge-adv">taper / PRN / special</span></button>
+      </div>
+
+      <div class="score-row">
+        <div class="score">Score: <strong id="correct">0</strong> / <strong id="total">0</strong></div>
+        <button class="reset-btn" onclick="resetSession()">Reset session</button>
+      </div>
+      <div class="progress"><div class="progress-bar" id="prog" style="width:0%"></div></div>
+
+      <div class="q-card" id="q-card">
+        <div class="q-mode-label" id="q-mode-label"></div>
+        <div class="sig-display" id="q-sig"></div>
+        <div class="sig-hint" id="q-hint"></div>
+        <div class="answer-area">
+          <input type="text" id="ans-input" placeholder="Type the EnterpriseRx translation…" onkeydown="if(event.key==='Enter')checkAnswer()" autocomplete="off" />
+          <button class="btn btn-primary" onclick="checkAnswer()">Check</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="nextQuestion()">Next sig →</button>
+          <button class="btn btn-outline" onclick="revealAnswer()">Show answer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERENCE TAB -->
+    <div id="tab-reference" style="display:none">
+      <div class="ref-section">
+        <div class="ref-section-title">Frequency <span class="badge badge-basic">basic</span></div>
+        <div class="ref-grid" id="ref-freq"></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-section-title">Route <span class="badge badge-basic">basic</span></div>
+        <div class="ref-grid" id="ref-route"></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-section-title">Dose / form <span class="badge badge-basic">basic</span></div>
+        <div class="ref-grid" id="ref-dose"></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-section-title">Tapering <span class="badge badge-adv">advanced</span></div>
+        <div class="ref-grid" id="ref-taper"></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-section-title">PRN conditions <span class="badge badge-adv">advanced</span></div>
+        <div class="ref-grid" id="ref-prn"></div>
+      </div>
+      <div class="ref-section">
+        <div class="ref-section-title">Special instructions <span class="badge badge-adv">advanced</span></div>
+        <div class="ref-grid" id="ref-special"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Translations follow common plain-English conventions. Verify against your specific EnterpriseRx system configuration.</p>
+  </footer>
+
+  <script>
+    const DATA = {
+      freq: [
+        {sig:'QD',trans:'Take once daily',hint:'Once daily frequency'},
+        {sig:'BID',trans:'Take twice daily',hint:'Twice daily frequency'},
+        {sig:'TID',trans:'Take three times daily',hint:'Three times daily'},
+        {sig:'QID',trans:'Take four times daily',hint:'Four times daily'},
+        {sig:'Q4H',trans:'Take every 4 hours',hint:'Every 4 hours'},
+        {sig:'Q6H',trans:'Take every 6 hours',hint:'Every 6 hours'},
+        {sig:'Q8H',trans:'Take every 8 hours',hint:'Every 8 hours'},
+        {sig:'Q12H',trans:'Take every 12 hours',hint:'Every 12 hours'},
+        {sig:'QHS',trans:'Take at bedtime',hint:'Bedtime dose'},
+        {sig:'QAM',trans:'Take every morning',hint:'Morning dose'},
+        {sig:'QPM',trans:'Take every evening',hint:'Evening dose'},
+        {sig:'Q48H',trans:'Take every 48 hours',hint:'Every other day'},
+        {sig:'QWK',trans:'Take once weekly',hint:'Weekly dose'},
+      ],
+      route: [
+        {sig:'PO',trans:'By mouth',hint:'Oral route'},
+        {sig:'SL',trans:'Under the tongue',hint:'Sublingual route'},
+        {sig:'TOP',trans:'Apply topically',hint:'Topical route'},
+        {sig:'OU',trans:'In both eyes',hint:'Both eyes'},
+        {sig:'OD',trans:'In the right eye',hint:'Right eye'},
+        {sig:'OS',trans:'In the left eye',hint:'Left eye'},
+        {sig:'AU',trans:'In both ears',hint:'Both ears'},
+        {sig:'AD',trans:'In the right ear',hint:'Right ear'},
+        {sig:'AS',trans:'In the left ear',hint:'Left ear'},
+        {sig:'INH',trans:'Inhale',hint:'Inhalation route'},
+        {sig:'NAS',trans:'In the nose',hint:'Nasal route'},
+        {sig:'PR',trans:'Per rectum',hint:'Rectal route'},
+        {sig:'VAG',trans:'Vaginally',hint:'Vaginal route'},
+        {sig:'IM',trans:'Intramuscularly',hint:'Intramuscular injection'},
+        {sig:'SQ',trans:'Subcutaneously',hint:'Subcutaneous injection'},
+      ],
+      dose: [
+        {sig:'1 TAB',trans:'Take 1 tablet',hint:'Single tablet'},
+        {sig:'2 TAB',trans:'Take 2 tablets',hint:'Two tablets'},
+        {sig:'1/2 TAB',trans:'Take one-half tablet',hint:'Half tablet'},
+        {sig:'1 CAP',trans:'Take 1 capsule',hint:'Single capsule'},
+        {sig:'1 TSP',trans:'Take 1 teaspoonful (5 mL)',hint:'Teaspoon = 5 mL'},
+        {sig:'1 TBSP',trans:'Take 1 tablespoonful (15 mL)',hint:'Tablespoon = 15 mL'},
+        {sig:'2 PUFF',trans:'Inhale 2 puffs',hint:'Two inhaler actuations'},
+        {sig:'1 GTT',trans:'Instill 1 drop',hint:'One drop'},
+        {sig:'2 GTT',trans:'Instill 2 drops',hint:'Two drops'},
+        {sig:'1 SUPP',trans:'Insert 1 suppository',hint:'Rectal/vaginal suppository'},
+        {sig:'1 PATCH',trans:'Apply 1 patch',hint:'Transdermal patch'},
+        {sig:'1 SPRAY',trans:'Spray 1 time',hint:'Single spray actuation'},
+        {sig:'UD',trans:'As directed',hint:'Per prescriber direction'},
+      ],
+      taper: [
+        {sig:'1 TAB QD X 7D, THEN 1 TAB QOD X 7D, THEN STOP',trans:'Take 1 tablet daily for 7 days, then 1 tablet every other day for 7 days, then discontinue',hint:'Steroid taper pattern'},
+        {sig:'2 TAB QD X 3D, 1 TAB QD X 3D, 1/2 TAB QD X 3D',trans:'Take 2 tablets daily for 3 days, then 1 tablet daily for 3 days, then one-half tablet daily for 3 days',hint:'Dose-step taper'},
+        {sig:'DEC DOSE BY 1 TAB QWK',trans:'Decrease dose by 1 tablet each week',hint:'Weekly wean'},
+        {sig:'1 TAB BID X 5D, THEN 1 TAB QD X 5D, THEN STOP',trans:'Take 1 tablet twice daily for 5 days, then 1 tablet daily for 5 days, then discontinue',hint:'5-day BID to QD taper'},
+        {sig:'4 TAB QD X 2D, 3 TAB QD X 2D, 2 TAB QD X 2D, 1 TAB QD X 2D',trans:'Take 4 tablets daily for 2 days, then 3 tablets daily for 2 days, then 2 tablets daily for 2 days, then 1 tablet daily for 2 days',hint:'Medrol-style dose pack'},
+      ],
+      prn: [
+        {sig:'Q4-6H PRN PAIN',trans:'Take every 4 to 6 hours as needed for pain',hint:'PRN analgesic'},
+        {sig:'Q6H PRN NAUSEA',trans:'Take every 6 hours as needed for nausea',hint:'PRN antiemetic'},
+        {sig:'QHS PRN SLEEP',trans:'Take at bedtime as needed for sleep',hint:'PRN sleep aid'},
+        {sig:'BID PRN ANXIETY',trans:'Take twice daily as needed for anxiety',hint:'PRN anxiolytic'},
+        {sig:'Q4H PRN FEVER',trans:'Take every 4 hours as needed for fever',hint:'PRN antipyretic'},
+        {sig:'PRN ITCHING',trans:'Use as needed for itching',hint:'PRN antipruritic'},
+        {sig:'PRN SHORTNESS OF BREATH',trans:'Use as needed for shortness of breath',hint:'PRN bronchodilator'},
+        {sig:'PRN BREAKTHROUGH PAIN',trans:'Use as needed for breakthrough pain',hint:'Breakthrough dosing'},
+        {sig:'NTE 4 DOSES/24H',trans:'Do not exceed 4 doses in 24 hours',hint:'Maximum frequency limit'},
+      ],
+      special: [
+        {sig:'AC',trans:'Before meals',hint:'Pre-meal timing'},
+        {sig:'PC',trans:'After meals',hint:'Post-meal timing'},
+        {sig:'W/ FOOD',trans:'Take with food',hint:'With food instruction'},
+        {sig:'W/ FULL GLASS OF WATER',trans:'Take with a full glass of water',hint:'Full glass water'},
+        {sig:'DO NOT CRUSH',trans:'Do not crush or chew',hint:'Extended release warning'},
+        {sig:'AVOID ALCOHOL',trans:'Avoid alcohol while taking this medication',hint:'Alcohol interaction'},
+        {sig:'AVOID SUN EXPOSURE',trans:'Avoid prolonged sun exposure',hint:'Photosensitivity warning'},
+        {sig:'SHAKE WELL',trans:'Shake well before use',hint:'Suspension instruction'},
+        {sig:'REFRIGERATE',trans:'Store in the refrigerator',hint:'Cold storage'},
+        {sig:'DO NOT REFRIGERATE',trans:'Do not store in the refrigerator',hint:'Room temp storage'},
+        {sig:'TAKE ON EMPTY STOMACH',trans:'Take on an empty stomach',hint:'Fasting absorption'},
+        {sig:'ALLOW TO DISSOLVE UNDER TONGUE',trans:'Allow to dissolve completely under the tongue',hint:'SL dissolution'},
+        {sig:'APPLY THIN FILM',trans:'Apply a thin film to affected area',hint:'Topical application'},
+        {sig:'RINSE MOUTH AFTER USE',trans:'Rinse mouth after each use',hint:'Inhaled steroid instruction'},
+        {sig:'ROTATE SITES',trans:'Rotate injection sites',hint:'Injection site rotation'},
+      ]
+    };
+
+    const CATEGORIES = { basic: ['freq','route','dose'], advanced: ['taper','prn','special'] };
+    let filters = { basic: true, advanced: true };
+    let pool = [], idx = 0, correctCount = 0, totalCount = 0, revealed = false;
+
+    function buildPool() {
+      pool = [];
+      if (filters.basic) CATEGORIES.basic.forEach(c => DATA[c].forEach(d => pool.push({...d, level:'basic', cat:c})));
+      if (filters.advanced) CATEGORIES.advanced.forEach(c => DATA[c].forEach(d => pool.push({...d, level:'advanced', cat:c})));
+      pool = pool.sort(() => Math.random() - 0.5);
+      idx = 0;
+    }
+
+    function toggleFilter(btn, key) {
+      filters[key] = !filters[key];
+      btn.classList.toggle('on', filters[key]);
+      buildPool();
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const card = document.getElementById('q-card');
+      if (!pool.length) {
+        card.innerHTML = '<div class="empty">No categories selected. Enable at least one filter above.</div>';
+        return;
+      }
+      const q = pool[idx % pool.length];
+      document.getElementById('q-mode-label').textContent = (q.level === 'basic' ? 'Basic' : 'Advanced') + ' · ' + q.cat;
+      document.getElementById('q-sig').textContent = q.sig;
+      document.getElementById('q-hint').textContent = 'Hint: ' + q.hint;
+      document.getElementById('ans-input').value = '';
+      document.getElementById('ans-input').focus();
+      const fb = document.getElementById('feedback');
+      fb.className = 'feedback';
+      fb.textContent = '';
+      revealed = false;
+      updateProgress();
+    }
+
+    function checkAnswer() {
+      if (revealed) return;
+      const q = pool[idx % pool.length];
+      const inp = document.getElementById('ans-input').value.trim().toLowerCase();
+      if (!inp) return;
+      const correctAns = q.trans.toLowerCase();
+      const keywords = correctAns.split(' ').filter(w => w.length > 3);
+      const matched = keywords.filter(w => inp.includes(w)).length;
+      const pass = matched >= Math.ceil(keywords.length * 0.6);
+      totalCount++;
+      document.getElementById('total').textContent = totalCount;
+      const fb = document.getElementById('feedback');
+      if (pass) {
+        correctCount++;
+        document.getElementById('correct').textContent = correctCount;
+        fb.className = 'feedback correct';
+        fb.textContent = 'Correct! "' + q.trans + '"';
+      } else {
+        fb.className = 'feedback wrong';
+        fb.textContent = 'Not quite. Expected: "' + q.trans + '"';
+      }
+      revealed = true;
+    }
+
+    function revealAnswer() {
+      if (!pool.length) return;
+      const q = pool[idx % pool.length];
+      const fb = document.getElementById('feedback');
+      fb.className = 'feedback wrong';
+      fb.textContent = 'Answer: "' + q.trans + '"';
+      revealed = true;
+    }
+
+    function nextQuestion() {
+      idx++;
+      loadQuestion();
+    }
+
+    function resetSession() {
+      correctCount = 0; totalCount = 0;
+      document.getElementById('correct').textContent = 0;
+      document.getElementById('total').textContent = 0;
+      buildPool();
+      loadQuestion();
+    }
+
+    function updateProgress() {
+      const pct = pool.length ? Math.round(((idx % pool.length) / pool.length) * 100) : 0;
+      document.getElementById('prog').style.width = pct + '%';
+    }
+
+    function switchTab(t) {
+      document.getElementById('tab-practice').style.display = t === 'practice' ? 'block' : 'none';
+      document.getElementById('tab-reference').style.display = t === 'reference' ? 'block' : 'none';
+      document.querySelectorAll('.tab').forEach((b, i) => {
+        b.classList.toggle('active', (i === 0 && t === 'practice') || (i === 1 && t === 'reference'));
+      });
+    }
+
+    function buildRef() {
+      Object.keys(DATA).forEach(cat => {
+        const el = document.getElementById('ref-' + cat);
+        if (!el) return;
+        el.innerHTML = DATA[cat].map(d =>
+          `<div class="ref-item"><div class="ref-sig">${d.sig}</div><div class="ref-trans">${d.trans}</div></div>`
+        ).join('');
+      });
+    }
+
+    buildRef();
+    buildPool();
+    loadQuestion();
+  </script>
+
+</body>
+</html>
