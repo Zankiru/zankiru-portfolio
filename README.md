@@ -6,6 +6,7 @@ A personal portfolio site built with plain HTML, CSS, and JavaScript — no fram
 
 **Live Site:** <a href="https://zankiru.github.io/zankiru-portfolio">Z's Portfolio</a>
 
+### Sig Code Lookup will be updated periodically once new sigs are learned.
 ---
 
 ## 🔍 Featured Project: EnterpriseRx Sig Code Lookup
