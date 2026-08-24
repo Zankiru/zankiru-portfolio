@@ -1,4 +1,4 @@
-# Luis Bucheli — Developer Portfolio
+# LB — Developer Portfolio
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-2a5f4f.svg)
 
