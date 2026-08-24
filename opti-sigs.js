@@ -425,6 +425,11 @@
           translation:"For Diarrhea",
           category:"PRN / Condition"
         },
+         {
+          code:"ANX",
+          translation:"For Anxiety",
+          category:"PRN / Condition"
+         },
         {
           code:"SOB",       
           translation:"For Shortness of breath",
